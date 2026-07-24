@@ -18,14 +18,15 @@ interface ImportTransactionsProps {
 }
 
 type ImportView = "methods" | "upload" | "success";
+type CurrencyCode = "INR" | "MYR";
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
 
-function formatCurrency(amount: number) {
-  return new Intl.NumberFormat("en-IN", {
+function formatCurrency(amount: number, currency: CurrencyCode) {
+  return new Intl.NumberFormat(currency === "MYR" ? "en-MY" : "en-IN", {
     style: "currency",
-    currency: "INR",
-    maximumFractionDigits: 0,
+    currency,
+    maximumFractionDigits: 2,
   }).format(amount);
 }
 
@@ -65,6 +66,7 @@ export default function ImportTransactions({
   const [isReadingFile, setIsReadingFile] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [importedCount, setImportedCount] = useState(0);
+  const [currency, setCurrency] = useState<CurrencyCode>("INR");
 
   useEffect(() => {
     const previousOverflow = document.body.style.overflow;
@@ -506,6 +508,28 @@ export default function ImportTransactions({
 
               {previewTransactions.length > 0 && (
                 <>
+                  <div className="import-currency-row">
+                    <div>
+                      <strong>Display currency</strong>
+                      <span>
+                        Choose Indian Rupee or Malaysian Ringgit for this preview.
+                      </span>
+                    </div>
+
+                    <label className="import-currency-select">
+                      <span className="sr-only">Select currency</span>
+                      <select
+                        value={currency}
+                        onChange={(event) =>
+                          setCurrency(event.target.value as CurrencyCode)
+                        }
+                      >
+                        <option value="INR">₹ INR — Indian Rupee</option>
+                        <option value="MYR">RM MYR — Malaysian Ringgit</option>
+                      </select>
+                    </label>
+                  </div>
+
                   <div className="import-summary-grid">
                     <article>
                       <span>Transactions</span>
@@ -515,20 +539,20 @@ export default function ImportTransactions({
                     <article>
                       <span>Total income</span>
                       <strong className="income">
-                        {formatCurrency(totals.income)}
+                        {formatCurrency(totals.income, currency)}
                       </strong>
                     </article>
 
                     <article>
                       <span>Total expenses</span>
                       <strong className="expense">
-                        {formatCurrency(totals.expenses)}
+                        {formatCurrency(totals.expenses, currency)}
                       </strong>
                     </article>
 
                     <article>
                       <span>Net amount</span>
-                      <strong>{formatCurrency(totals.net)}</strong>
+                      <strong>{formatCurrency(totals.net, currency)}</strong>
                     </article>
                   </div>
 
@@ -572,7 +596,7 @@ export default function ImportTransactions({
                                     {transaction.type}
                                   </span>
                                 </td>
-                                <td>{formatCurrency(transaction.amount)}</td>
+                                <td>{formatCurrency(transaction.amount, currency)}</td>
                               </tr>
                             ))}
                         </tbody>
