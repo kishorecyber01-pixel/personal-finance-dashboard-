@@ -1,0 +1,11 @@
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap");
+
+html { font-family: var(--font-body); }
+body, button, input, select, textarea { font-family: var(--font-body); }
+h1, h2, h3, h4, h5, h6 { font-family: var(--font-display); letter-spacing: -0.025em; }
+.summary-card h3,
+.income-amount,
+.expense-amount,
+.recurring-amount,
+.goal-amount,
+.budget-amount { font-family: var(--font-number); font-variant-numeric: tabular-nums; }

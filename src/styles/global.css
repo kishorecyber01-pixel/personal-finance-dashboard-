@@ -1,0 +1,8 @@
+* { scrollbar-width: thin; scrollbar-color: var(--text-muted) transparent; }
+*::-webkit-scrollbar { width: 9px; height: 9px; }
+*::-webkit-scrollbar-track { background: transparent; }
+*::-webkit-scrollbar-thumb { border: 2px solid transparent; border-radius: 999px; background: color-mix(in srgb, var(--text-muted) 55%, transparent); background-clip: padding-box; }
+::selection { background: var(--primary-soft); color: var(--text-primary); }
+html { scroll-behavior: smooth; background: var(--background); }
+body { background: var(--background); color: var(--text-primary); }
+button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, a:focus-visible { outline: none; box-shadow: var(--shadow-focus); }
